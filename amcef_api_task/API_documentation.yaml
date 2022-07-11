@@ -1,0 +1,134 @@
+openapi: 3.0.0
+info:
+  title: "Posts API"
+  description: "Test Task for managing Posts"
+  contact:
+    name: "Martin Murar"
+    email: "mato.murar@gmail.com"
+  version: 1.0.0
+  
+servers:
+  - url: "http://localhost:5000"
+  
+tags:
+  - name: "Posts"
+
+paths:
+  /api/posts:
+
+
+    get:
+      tags:
+        - "Posts"
+      summary: "Returns posts"
+      description: "returns a list of all posts. If given parameters, returns specific posts. If the post with the given ID isn't in the database, it is retrieved from an external API."
+      
+      responses:
+        "200":
+          description: "OK"
+        "404":
+          description: "not found"
+        "500":
+          description: "unexpected response"
+      
+      parameters:
+        - in: "query"
+          name: "id"
+          schema:
+            type: "integer"
+            format: "int64"
+
+        - in: "query"
+          name: "userId"
+          schema:
+            type: "integer"
+            format: "int64"
+
+
+    post:
+      tags:
+        - "Posts"
+      summary: "Uploads a post"
+      description: "adds a post with the given ID to the database"
+      
+      responses:
+        "200":
+          description: "OK"
+        "400":
+          description: "bad user input"
+        "404":
+          description: "user not found"
+      
+      
+      requestBody:
+        description: "request to add a post"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Post"
+      
+
+
+    put:
+      tags:
+        - "Posts"
+      summary: "Updates a post"
+      description: "updates title and the body of the post with the given ID"
+            
+      responses:
+        "200":
+          description: "post updated"
+        "404":
+          description: "no post with id"
+        "400":
+          description: "title or body missing"
+
+      
+      requestBody:
+        description: "request to update a post"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Post"
+
+
+  /api/posts/{id}:
+    delete:
+      tags:
+        - "Posts"
+      summary: "Deletes a post"
+      description: "deletes a post with the given ID"
+      
+      responses:
+        "200":
+          description: "successfully removed the post"
+        "404":
+          description: "no post with this id"
+
+      parameters:
+        - in: "path"
+          name: "id"
+          schema:
+            type: "integer"
+          required: true
+
+
+components:
+  schemas:
+    Post:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+        userId:
+          type: "integer"
+          format: "int64"
+        title:
+          type: "string"
+          format: "str"
+        body:
+          type: "string"
+          format: "str"
