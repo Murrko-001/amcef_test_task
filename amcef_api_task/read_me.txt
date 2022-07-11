@@ -17,4 +17,4 @@ How to run the service:
                                 "set FLASK_ENV=development"
                                 "flask run"
 
-(in case it doesn't work, try upgrading your pip, and reinstalling flask)
+(in case it doesn't work, try upgrading your pip, and reinstalling requirements.txt)
